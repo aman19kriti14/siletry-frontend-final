@@ -111,7 +111,7 @@ export function statusAccent(status: AppointmentStatus, emergency: boolean): str
   if (emergency && status !== 'SEEN') return '#c2402f';
   switch (status) {
     case 'WAITING': return '#c98a2b';
-    case 'IN_CONSULT': return '#2d6a5e';
+    case 'IN_CONSULT': return '#1A6650';
     case 'NO_SHOW': return '#a45a50';
     case 'CANCELLED': return '#cfc9bf';
     case 'SEEN': return '#b8c3be';

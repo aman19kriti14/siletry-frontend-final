@@ -9,6 +9,7 @@ import { useAuth } from '../lib/auth';
 import { useToast } from '../lib/toast';
 import { Loading, Toggle } from '../components/ui';
 import WhatsAppConnectForm from '../components/WhatsAppConnectForm';
+import Logo from '../components/Logo';
 import { DAYS, fmtClock, langName } from '../lib/format';
 
 const STEPS = [
@@ -181,8 +182,7 @@ export default function Setup() {
     <div className="setup">
       <header className="setup-top">
         <div className="row gap-12">
-          <div className="brand-mark">S</div>
-          <b style={{ fontSize: 18 }}>Siletry</b>
+          <Logo size={28} />
           <span className="setup-divider" />
           <span className="muted">Setting up <b style={{ color: 'var(--text)' }}>{clinicName}</b></span>
         </div>
@@ -291,7 +291,7 @@ export default function Setup() {
               </div>
               <div className="grid-2">
                 <HoursCard icon={<Sunrise color="#c0763a" />} label="Morning" value={morning} fallback={{ start: '09:30', end: '13:00' }} onChange={setMorning} />
-                <HoursCard icon={<Sunset color="#2d6a5e" />} label="Evening" value={evening} fallback={{ start: '16:30', end: '20:00' }} onChange={setEvening} />
+                <HoursCard icon={<Sunset color="#1A6650" />} label="Evening" value={evening} fallback={{ start: '16:30', end: '20:00' }} onChange={setEvening} />
               </div>
               <span className="hint">You can set different hours per doctor, and add leave, later in Doctors & hours.</span>
             </StepFrame>
@@ -385,7 +385,7 @@ export default function Setup() {
                 <SummaryRow ok title="Automations" value={`${autoOn} of 6 on`} onEdit={() => setStep(4)} />
               </div>
               <div className="test-box">
-                <Send color="#2d6a5e" />
+                <Send color="#1A6650" />
                 <div className="grow">
                   <b>Send yourself a test message</b>
                   <div className="muted" style={{ fontSize: 14 }}>It arrives on your own WhatsApp{s.ownerPhone ? ` (${s.ownerPhone})` : ''} from the clinic number.</div>

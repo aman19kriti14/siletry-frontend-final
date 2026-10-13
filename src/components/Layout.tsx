@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutGrid, CalendarDays, MessagesSquare, Users, Stethoscope, Workflow, CalendarCheck, FileText,
   Smartphone, BarChart3, ReceiptIndianRupee, Settings, Search, ChevronDown, LogOut, FlaskConical,
@@ -8,6 +8,7 @@ import { useAuth } from '../lib/auth';
 import { api, qs } from '../api/client';
 import type { AppointmentList, InboxList, PatientRow } from '../api/types';
 import { Avatar } from './ui';
+import Logo from './Logo';
 import { useToast } from '../lib/toast';
 import { initials } from '../lib/format';
 
@@ -75,8 +76,7 @@ export default function Layout() {
     <div className="app">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <div className="brand-mark">S</div>
-          <div className="brand-name">Siletry</div>
+          <Link to="/" aria-label="Siletry home"><Logo size={28} tone="dark" /></Link>
         </div>
         <nav className="sidebar-nav">
           <div className="nav-section">Clinic</div>

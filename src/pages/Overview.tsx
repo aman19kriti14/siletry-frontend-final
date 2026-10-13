@@ -139,7 +139,7 @@ export default function Overview() {
               <div key={l.language} className="lang-row">
                 <span>{langName(l.language)}</span>
                 <div className="lang-track">
-                  <div className="lang-fill" style={{ width: `${l.percent}%`, background: ['#2d6a5e', '#7fb0a5', '#dcae7f', '#b9c7c2'][i % 4] }} />
+                  <div className="lang-fill" style={{ width: `${l.percent}%`, background: ['#1A6650', '#7fb0a5', '#dcae7f', '#b9c7c2'][i % 4] }} />
                 </div>
                 <span className="muted" style={{ textAlign: 'right' }}>{l.percent}%</span>
               </div>

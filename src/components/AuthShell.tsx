@@ -1,25 +1,25 @@
 import type { ReactNode } from 'react';
 import { CheckCircle2, Clock, Languages, Sparkles } from 'lucide-react';
+import Logo from './Logo';
 
 /** Two-column frame for sign in / sign up: story on the left, form on the right. */
+const SITE = (import.meta.env.VITE_SITE_URL || 'https://siletry.com').replace(/\/$/, '');
+
 export default function AuthShell({ topRight, children }: { topRight: ReactNode; children: ReactNode }) {
   const now = new Date().toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
   return (
     <div className="auth2">
       <div className="auth2-side">
-        <div className="row gap-12">
-          <div className="brand-mark lg">S</div>
-          <div className="brand-name" style={{ fontSize: 22 }}>Siletry</div>
-        </div>
+        <a href={SITE} aria-label="Siletry home" style={{ alignSelf: 'flex-start' }}><Logo size={34} tone="dark" /></a>
         <div className="auth2-story">
-          <h1>Never miss a patient on WhatsApp again.</h1>
-          <p>Siletry is a WhatsApp receptionist for your clinic. It replies to patients and books appointments 24/7, even when your staff is busy or the clinic is closed.</p>
-          <div className="demo-chat">
-            <div className="demo-head"><span className="dot" /> Nandini Clinic · {now} · clinic closed</div>
+          <h1>The front desk that <span className="hl">never closes.</span></h1>
+          <p>Siletry is the AI receptionist on your clinic's WhatsApp. It books appointments, runs the waiting-room queue, and sends reminders and follow-ups, even when the clinic is closed.</p>
+          <div className="demo-chat" aria-hidden="true">
+            <div className="demo-head"><span className="dot" /> Your clinic · {now} · clinic closed</div>
             <div className="demo-in">Doctor available tomorrow evening?</div>
-            <div className="demo-out">Yes. Dr. Anitha Rao has 5:30 pm and 6:15 pm free tomorrow. Which suits you?</div>
+            <div className="demo-out">Yes. Dr. Rao has 5:30 pm and 6:15 pm free tomorrow. Which suits you?</div>
             <div className="demo-in">5:30 ಸರಿ</div>
-            <div className="demo-foot"><CheckCircle2 size={17} /> Booked in 41 seconds</div>
+            <div className="demo-foot"><CheckCircle2 size={17} /> Booked · reminder set</div>
           </div>
         </div>
         <div className="auth2-perks">
@@ -29,14 +29,17 @@ export default function AuthShell({ topRight, children }: { topRight: ReactNode;
         </div>
       </div>
       <div className="auth2-main">
-        <div className="auth2-top">{topRight}</div>
+        <div className="auth2-top">
+          <a className="auth2-home" href={SITE}><Logo size={26} /></a>
+          {topRight}
+        </div>
         <div className="auth2-form">{children}</div>
         <div className="auth2-footer">
-          <span>© {new Date().getFullYear()} Siletry</span>
+          <span>© {new Date().getFullYear()} Gatistack Technologies</span>
           <span className="right row gap-16">
             <a href="mailto:hello@siletry.com">Help</a>
-            <a href="#" onClick={(e) => e.preventDefault()}>Privacy</a>
-            <a href="#" onClick={(e) => e.preventDefault()}>Status</a>
+            <a href={`${SITE}/privacy`}>Privacy</a>
+            <a href={`${SITE}/terms`}>Terms</a>
           </span>
         </div>
       </div>
