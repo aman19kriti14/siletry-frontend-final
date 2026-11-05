@@ -115,7 +115,7 @@ export interface ClinicView {
   queueUpdatesEnabled: boolean; googleReviewLink?: string;
   delayAnnouncementsEnabled: boolean; googleReviewsEnabled: boolean;
   clinicType?: string; landmark?: string; replyLanguages: string[]; live: boolean;
-  apiConnected: boolean; verifiedName?: string; phoneNumberId?: string; businessAccountId?: string; apiConnectedAt?: string;
+  apiConnected: boolean; verifiedName?: string; phoneNumberId?: string; businessAccountId?: string; apiConnectedAt?: string; provider?: 'gupshup' | 'meta';
 }
 export interface UsageView { month: string; businessInitiated: number; cap: number; serviceReplies: number; inbound: number; percentUsed: number }
 export interface FollowUpView { id: number; patientId: number; doctorId?: number; title: string; dueDate: string; status: string; appointmentId?: number }
