@@ -71,8 +71,9 @@ export default function WhatsAppNumbers() {
             {clinic.apiConnected && (
               <>
                 <div className="divider" />
-                <div className="kv"><span className="k">Phone number ID</span><span className="v">{clinic.phoneNumberId}</span></div>
-                <div className="kv"><span className="k">WhatsApp Business Account ID</span><span className="v">{clinic.businessAccountId}</span></div>
+                <div className="kv"><span className="k">Connected through</span><span className="v">{clinic.provider === 'gupshup' ? 'Gupshup (official WhatsApp partner)' : 'Meta WhatsApp Cloud API'}</span></div>
+                {clinic.phoneNumberId && <div className="kv"><span className="k">Phone number ID</span><span className="v">{clinic.phoneNumberId}</span></div>}
+                {clinic.businessAccountId && <div className="kv"><span className="k">WhatsApp Business Account ID</span><span className="v">{clinic.businessAccountId}</span></div>}
                 <div className="kv"><span className="k">Connected</span><span className="v">{fmtDate(clinic.apiConnectedAt)}</span></div>
                 {owner && (
                   <div className="row mt-16">
