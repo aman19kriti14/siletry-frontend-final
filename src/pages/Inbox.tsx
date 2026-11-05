@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Bot, CalendarPlus, MoreVertical, Phone, Send, Siren, UserRound, MessagesSquare } from 'lucide-react';
+import { ArrowLeft, Bot, CalendarPlus, MoreVertical, Phone, Send, Siren, UserRound, MessagesSquare } from 'lucide-react';
 import { api, qs } from '../api/client';
 import type { ChatThread, InboxList, MessageView, PatientProfile } from '../api/types';
 import { useFetch } from '../lib/useFetch';
@@ -15,13 +15,14 @@ export default function Inbox() {
   const [tab, setTab] = useState<'needs' | 'all'>('needs');
   const { data: list, reload: reloadList } = useFetch<InboxList>('/api/inbox' + qs({ tab }), { pollMs: 10000 });
 
-  // Open the first conversation when none is selected
+  // On wide screens open the first conversation when none is selected. On phones show the list first.
   useEffect(() => {
-    if (!id && list?.items.length) nav(`/inbox/${list.items[0].id}`, { replace: true });
+    const wide = typeof window !== 'undefined' && window.matchMedia('(min-width: 861px)').matches;
+    if (wide && !id && list?.items.length) nav(`/inbox/${list.items[0].id}`, { replace: true });
   }, [id, list, nav]);
 
   return (
-    <div className="inbox">
+    <div className={`inbox ${id ? 'has-thread' : ''}`}>
       <div className="inbox-list">
         <div className="tabs" style={{ paddingTop: 14 }}>
           <button className={`tab ${tab === 'needs' ? 'active' : ''}`} onClick={() => setTab('needs')}>
@@ -135,12 +136,13 @@ function Thread({ id, onChanged }: { id: number; onChanged: () => void }) {
     <>
       <div className="thread">
         <div className="thread-head">
+          <button className="icon-btn back-btn" onClick={() => nav('/inbox')} aria-label="Back to inbox"><ArrowLeft /></button>
           <Avatar text={c.initials} tone={c.emergency ? 'peach' : undefined} />
           <div className="grow">
             <div style={{ fontWeight: 600, fontSize: 16 }}>{c.name}</div>
             <div className="muted" style={{ fontSize: 13.5 }}>{c.phone} · WhatsApp</div>
           </div>
-          <button className="btn btn-outline" onClick={() => setBooking(true)}><CalendarPlus /> Book</button>
+          <button className="btn btn-outline" onClick={() => setBooking(true)}><CalendarPlus /> <span className="hide-sm">Book</span></button>
           <a className="icon-btn" href={`tel:${c.phone?.replace(/\s/g, '')}`} title="Call"><Phone /></a>
           <div style={{ position: 'relative' }}>
             <button className="icon-btn" onClick={() => setMenu((m) => !m)}><MoreVertical /></button>

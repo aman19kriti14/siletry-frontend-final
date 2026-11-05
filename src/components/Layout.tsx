@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutGrid, CalendarDays, MessagesSquare, Users, Stethoscope, Workflow, CalendarCheck, FileText,
-  Smartphone, BarChart3, ReceiptIndianRupee, Settings, Search, ChevronDown, LogOut, FlaskConical,
+  Smartphone, BarChart3, ReceiptIndianRupee, Settings, Search, ChevronDown, LogOut, FlaskConical, Menu, X,
 } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 import { api, qs } from '../api/client';
@@ -26,6 +26,16 @@ export default function Layout() {
   const nav = useNavigate();
   const [counts, setCounts] = useState({ today: 0, inbox: 0 });
   const [menu, setMenu] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+
+  // Phone menu: close when the page changes or Escape is pressed
+  useEffect(() => setNavOpen(false), [loc.pathname]);
+  useEffect(() => {
+    if (!navOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setNavOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [navOpen]);
 
   // Sidebar counts, refreshed in the background
   useEffect(() => {
@@ -73,10 +83,12 @@ export default function Layout() {
   );
 
   return (
-    <div className="app">
+    <div className={`app ${navOpen ? 'nav-open' : ''}`}>
+      {navOpen && <div className="nav-scrim" onClick={() => setNavOpen(false)} />}
       <aside className="sidebar">
         <div className="sidebar-brand">
           <Link to="/" aria-label="Siletry home"><Logo size={28} tone="dark" /></Link>
+          <button className="icon-btn nav-close" onClick={() => setNavOpen(false)} aria-label="Close menu"><X /></button>
         </div>
         <nav className="sidebar-nav">
           <div className="nav-section">Clinic</div>
@@ -109,15 +121,19 @@ export default function Layout() {
 
       <div className="main">
         <header className="topbar">
+          <button className="icon-btn nav-toggle" onClick={() => setNavOpen(true)} aria-label="Open menu">
+            <Menu />
+            {counts.inbox > 0 && <span className="nav-toggle-dot" />}
+          </button>
           <div className="crumbs">
-            {clinic?.name}
+            <span className="clinic">{clinic?.name}</span>
             <span className="sep">/</span>
             <b>{title}</b>
           </div>
           <GlobalSearch />
           <div className="status-chip" onClick={toggleBot} title={user?.role === 'OWNER' ? 'Click to pause or resume Siletry' : undefined}>
             <span className={`dot ${clinic?.botEnabled ? '' : 'gray'}`} />
-            {clinic?.botEnabled ? 'Siletry active' : 'Siletry paused'}
+            <span className="label">{clinic?.botEnabled ? 'Siletry active' : 'Siletry paused'}</span>
           </div>
           <div className="user-chip" onClick={() => setMenu((m) => !m)}>
             <Avatar text={initials(user?.name)} size="sm" />

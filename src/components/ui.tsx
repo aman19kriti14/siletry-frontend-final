@@ -1,4 +1,5 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Inbox as InboxIcon } from 'lucide-react';
 import type { AppointmentStatus, BookedBy, ConversationState } from '../api/types';
 import { BOOKED_BY_LABEL, STATUS_LABEL } from '../lib/format';
@@ -37,21 +38,46 @@ export function Empty({ text, icon }: { text: string; icon?: ReactNode }) {
   );
 }
 
+/** Open dialogs, so only the top one reacts to Escape and the page stays locked until the last closes. */
+let openModals = 0;
+
 export function Modal({
   title, sub, onClose, children, footer, wide,
 }: {
   title: string; sub?: string; onClose: () => void; children: ReactNode; footer?: ReactNode; wide?: boolean;
 }) {
+  const box = useRef<HTMLDivElement>(null);
+  const depth = useRef(0);
+
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    depth.current = ++openModals;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const returnFocus = document.activeElement as HTMLElement | null;
+    // Focus the first field (or the dialog itself) so keyboard users land inside it
+    const first = box.current?.querySelector<HTMLElement>('input, select, textarea');
+    (first ?? box.current)?.focus({ preventScroll: true });
+    return () => {
+      openModals--;
+      if (openModals === 0) document.body.style.overflow = prevOverflow;
+      returnFocus?.focus?.({ preventScroll: true });
+    };
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && depth.current === openModals) onClose();
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
-  return (
+
+  return createPortal(
     <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div className={`modal ${wide ? 'wide' : ''}`} role="dialog" aria-modal="true">
+      <div ref={box} tabIndex={-1} className={`modal ${wide ? 'wide' : ''}`} role="dialog" aria-modal="true" aria-label={title}>
+        <div className="modal-grip" aria-hidden />
         <div className="modal-head">
-          <div>
+          <div className="grow">
             <h2>{title}</h2>
             {sub && <div className="sub">{sub}</div>}
           </div>
@@ -62,7 +88,8 @@ export function Modal({
         <div className="modal-body">{children}</div>
         {footer && <div className="modal-foot">{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

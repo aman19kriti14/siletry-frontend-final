@@ -33,7 +33,7 @@ export default function PatientProfile() {
     <>
       <button className="link-btn mb-24" onClick={() => nav('/patients')}><ArrowLeft size={18} /> All patients</button>
 
-      <div className="row gap-16 mb-24" style={{ alignItems: 'flex-start' }}>
+      <div className="profile-head mb-24">
         <Avatar text={p.initials} size="xl" />
         <div className="grow">
           <div className="row gap-12" style={{ flexWrap: 'wrap' }}>
@@ -48,7 +48,7 @@ export default function PatientProfile() {
             <span>ID {p.patientNo}</span>
           </div>
         </div>
-        <div className="row">
+        <div className="row profile-actions">
           <button className="btn btn-plain btn-icon" title="Edit" onClick={() => setEditing(true)}><Pencil /></button>
           <a className="btn btn-plain btn-icon" title="Call" href={`tel:${p.phone.replace(/\s/g, '')}`}><Phone /></a>
           <button className="btn btn-outline" disabled={!p.conversationId} onClick={() => nav(`/inbox/${p.conversationId}`)}><MessageCircle /> Open chat</button>
@@ -72,7 +72,7 @@ export default function PatientProfile() {
             <div className="card card-pad" style={next ? { boxShadow: 'inset 5px 0 0 var(--primary)' } : undefined}>
               <div className="section-label">Next appointment</div>
               {next ? (
-                <div className="row gap-16 mt-12" style={{ flexWrap: 'wrap' }}>
+                <div className="row gap-16 mt-12 next-appt" style={{ flexWrap: 'wrap' }}>
                   <div className="grow">
                     <div style={{ fontSize: 26, fontWeight: 600 }}>{relativeDay(next.startAt)}, {fmtTime(next.startAt)}</div>
                     <div className="muted mt-8">
