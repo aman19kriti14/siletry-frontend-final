@@ -55,7 +55,7 @@ export default function WhatsAppNumbers() {
       <div className="overview-grid">
         <div className="col gap-16">
           <div className="card card-pad">
-            <div className="row gap-16">
+            <div className="row gap-16 wa-head">
               <div className="avatar lg" style={{ borderRadius: 14 }}><Smartphone /></div>
               <div className="grow">
                 <div className="section-label">Clinic number</div>
@@ -76,7 +76,7 @@ export default function WhatsAppNumbers() {
                 {clinic.businessAccountId && <div className="kv"><span className="k">WhatsApp Business Account ID</span><span className="v">{clinic.businessAccountId}</span></div>}
                 <div className="kv"><span className="k">Connected</span><span className="v">{fmtDate(clinic.apiConnectedAt)}</span></div>
                 {owner && (
-                  <div className="row mt-16">
+                  <div className="row mt-16 wrap-sm">
                     <button className="btn btn-outline btn-sm" disabled={busy} onClick={() => templates('submit-all')}>Send templates for approval</button>
                     <button className="btn btn-plain btn-sm" disabled={busy} onClick={() => templates('sync')}><RefreshCw /> Refresh template status</button>
                     <button className="btn btn-danger btn-sm right" onClick={disconnect}>Disconnect</button>
