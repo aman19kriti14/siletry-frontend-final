@@ -114,7 +114,15 @@ export default function Layout() {
               <span className={`dot ${clinic?.whatsappConnected ? '' : 'amber'}`} />
               {clinic?.whatsappConnected ? 'WhatsApp connected' : 'WhatsApp not connected'}
             </div>
-            <div className="num">{clinic?.whatsappNumber || 'Connect your clinic number'}</div>
+            <div className="num">{clinic?.whatsappConnected && clinic?.whatsappNumber ? clinic.whatsappNumber : 'Tap to connect your clinic number'}</div>
+          </div>
+          <div className="nav-user">
+            <Avatar text={initials(user?.name)} size="sm" />
+            <div className="grow">
+              <b>{user?.name}</b>
+              <span>{user?.email}</span>
+            </div>
+            <button className="icon-btn" onClick={logout} aria-label="Log out" title="Log out"><LogOut /></button>
           </div>
         </div>
       </aside>

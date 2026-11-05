@@ -614,6 +614,14 @@ p { margin: 0; }
 .profile-head { display: flex; gap: 16px; align-items: flex-start; }
 .profile-actions { flex-shrink: 0; }
 
+/* Account row at the bottom of the sidebar (log out) */
+.nav-user { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 8px 6px 2px; color: var(--sidebar-text); }
+.nav-user .grow { min-width: 0; }
+.nav-user b { display: block; font-size: 13.5px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-user span { display: block; font-size: 12px; color: var(--sidebar-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-user .icon-btn { color: var(--sidebar-text); flex-shrink: 0; }
+.nav-user .icon-btn:hover { background: rgba(255, 255, 255, .08); color: #fff; }
+
 /* ---------- Phone & tablet ---------- */
 .nav-toggle, .nav-close, .back-btn { display: none; }
 .nav-toggle { position: relative; }
